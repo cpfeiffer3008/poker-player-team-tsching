@@ -64,11 +64,16 @@ public class Player {
             int[] result = checkForSiblings(communityCards,p.hole_cards);
 
 
+
+
             // checken fuer zwilling, drillinge, vierlinge, full-house
 
-            bet += checkForTwins(result);
-            bet += checkForTwoTwins(result);
-            bet += checkForTripple(result);
+            if (communityCards.length == 3){
+                bet += checkForTwins(result);
+                bet += checkForTwoTwins(result);
+                bet += checkForTripple(result);
+            }
+
             bet += checkForFullHouse(result);
             bet += checkForQuadrupple(result);
 
