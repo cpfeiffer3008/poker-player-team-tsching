@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Player {
@@ -15,11 +16,36 @@ public class Player {
         Gson gson = new Gson();
         GameState gs = gson.fromJson(request, GameState.class);
 
+
         int bet = 0;
+        int highestbet = 0;
         int mySelfID = gs.in_action;
+        PlayerObj p = gs.players[mySelfID];
+        int myStack = p.stack;
+
+        CardObj[] myCards = p.hole_cards;
+
+        int one = myCards[0].getRankAsNumber();
+        int two = myCards[1].getRankAsNumber();
+
+        String oneColour = myCards[0].suit;
+        String twoColour = myCards[1].suit;
 
         System.err.println("All cards");
-        PlayerObj p = gs.players[mySelfID];
+        ArrayList<PlayerObj> allPlayers = new ArrayList<>();
+
+        for (PlayerObj thisg : gs.players){
+            allPlayers.add(thisg);
+        }
+
+        for (PlayerObj pl : allPlayers){
+            if (pl.bet > highestbet){
+                highestbet = pl.bet;
+            }
+        }
+
+
+
         System.err.println(p.name);
         for (int j=0; j<p.hole_cards.length; j++)
         {
@@ -31,17 +57,11 @@ public class Player {
 
         if (communityCards.length == 0){
 
-            // eigene Karten anschauen
-
-            CardObj[] myCards = p.hole_cards;
-
-           int one = myCards[0].getRankAsNumber();
-           int two = myCards[1].getRankAsNumber();
-
-           String oneColour = myCards[0].suit;
-           String twoColour = myCards[1].suit;
-
             // Karten rank vergleichen
+
+            if (one == 13 || two == 13){
+                return p.stack;
+            }
 
             if(Math.abs(one-two) > 5){
 
