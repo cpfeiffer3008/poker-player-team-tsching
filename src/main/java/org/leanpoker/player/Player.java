@@ -86,10 +86,10 @@ public class Player {
         if (bet != 0){
             bet = highestbet + bet - p.bet;
         }
-        else if (km_probability >= 50){
+       /* else if (km_probability >= 50){
 
             bet = highestbet-p.bet;
-        }
+        }*/
 
         double random = Math.random();
 
@@ -460,7 +460,7 @@ public class Player {
             temp = (erstekartewert > zweitekartewert) ? // Abstand der Karten
                     erstekartewert - zweitekartewert :
                     zweitekartewert - erstekartewert;
-            int hoehereKarte = (erstekartewert > zweitekartewert) ? // Abstand der Karten
+            int hoehereKarte = (erstekartewert > zweitekartewert) ? // höhere Karte
                     erstekartewert:
                     zweitekartewert;
 
