@@ -54,9 +54,15 @@ public class Player {
 
 
             bet = checkForPreFlop(one, two, oneColour, twoColour, bigBlind);
+            int km_probability = KMcompareCardsPreFlop(one,two,oneColour,twoColour);
+
 
             if (bet != 0){
                bet = highestbet + bet - p.bet;
+            }
+            else if (km_probability > 50){
+
+                bet = highestbet;
             }
 
 
@@ -113,10 +119,59 @@ public class Player {
             bet = 4 * bigBlind;
         }
 
+        if (bet == 0){
+
+
+        }
+
         return bet;
 
 
     }
+    public static int KMcompareCardsPreFlop(
+    int erstekartewert,
+    int zweitekartewert,
+    String erstefarbe,
+    String zweitefarbe
+    ) {
+        int wert = 0;
+
+        if (erstefarbe.equals(zweitefarbe)) {
+            wert = wert + 50;
+        } else {
+            wert = wert + 0;
+        }
+
+        int temp = 0;
+        if (erstekartewert == zweitekartewert) {
+            temp = erstekartewert + zweitekartewert;
+            wert = wert + 100;
+
+            wert = wert - (13 - erstekartewert); // 13 ist kartenanzehl
+        } else {
+            temp = (erstekartewert > zweitekartewert) ? // Abstand der Karten
+                    erstekartewert - zweitekartewert :
+                    zweitekartewert - erstekartewert;
+
+            switch (temp) {
+                case 1:
+                    wert = wert + 50;
+                    break;
+                case 2:
+                    wert = wert + 25;
+                    break;
+                case 3:
+                    wert = wert + 5;
+                    break;
+                default:
+                    wert = wert + 0;
+            }
+        }
+
+
+
+        return wert;
+    }//ende von compareCardsPreFlop
 
 }
 
