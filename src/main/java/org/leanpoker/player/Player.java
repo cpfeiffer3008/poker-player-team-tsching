@@ -267,6 +267,35 @@ public class Player {
 
         final int [] b = {counterA,counterB};
 
+        // zwilling or drilling in community
+
+        int counter = 0;
+
+        if((counterA == 0 && counterB != 0 )|| (counterA != 0 && counterB == 0)){
+
+            for(int i = 0; i<communityCards.length; i++) {
+
+
+                for (int j = i; j < communityCards.length; j++) {
+
+                    if (communityCards[i].rank.equals(communityCards[j].rank) && playerCards[0] != communityCards[i] && playerCards[1] != communityCards[i]) {
+
+                        counter++;
+
+                    }
+                }
+            }
+
+            if(counterA == 0){
+                b[0] = counter++;
+            }else {
+                b[1] = counter++;
+            }
+
+        }
+
+
+
         return b;
 
     }
