@@ -63,12 +63,15 @@ public class Player {
             int[] result = checkForSiblings(communityCards,p.hole_cards);
 
 
-            // checken fuer zwilling
+            // checken fuer zwilling, drillinge, vierlinge, full-house
 
             bet += checkForTwins(result);
-            bet += chechForTwoTwins(result);
+            bet += checkForTwoTwins(result);
+            bet += checkForTripple(result);
+            bet += checkForFullHouse(result);
+            bet += checkForQuadrupple(result);
 
-         
+
         }
 
         if (bet != 0){
@@ -82,7 +85,7 @@ public class Player {
         return bet;
     }
 
-    private static int chechForTwoTwins(int[] a) {
+    private static int checkForTwoTwins(int[] a) {
 
         int bet = 0;
 
@@ -116,9 +119,64 @@ public class Player {
         return bet;
 
 
+    }
+    public static  int checkForQuadrupple(int[] a){
+
+        int bet = 0;
+
+        if (a[0] == 0 && a[1] == 4){
+
+            bet = 1;
+
+        }
+        if (a[0] == 4 && a[1] == 0){
+
+            bet = 100;
+
+        }
+
+        return bet;
+
 
     }
 
+    public static  int checkForTripple(int[] a){
+
+        int bet = 0;
+
+        if (a[0] == 0 && a[1] == 3){
+
+            bet = 1;
+
+        }
+        if (a[0] == 3 && a[1] == 0){
+
+            bet = 10;
+
+        }
+
+        return bet;
+
+    }
+
+    public static  int checkForFullHouse(int[] a){
+
+        int bet = 0;
+
+        if (a[0] == 2 && a[1] == 3){
+
+            bet = 1;
+
+        }
+        if (a[0] == 3 && a[1] == 2){
+
+            bet = 75;
+
+        }
+
+        return bet;
+
+    }
     public static int checkForPreFlop(int one, int two, String oneColour, String twoColour, int bigBlind){
 
         int bet = 0;
