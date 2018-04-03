@@ -1,18 +1,15 @@
 package org.leanpoker.player;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
-import java.util.Random;
 
 public class Player {
 
     static final String VERSION = "Default Java folding player";
+    static boolean didBlueff = false;
 
     public static int betRequest(JsonElement request) {
         Gson gson = new Gson();
@@ -90,7 +87,9 @@ public class Player {
         }*/
 
 
-
+        if (p.bet == 0){
+            didBlueff = false;
+        }
         double random = Math.random();
         if(random <= 0.5){
 
@@ -106,8 +105,12 @@ public class Player {
         }
 
         if (random <=  0.03){
-
+            didBlueff = true;
             bet = p.stack/2;
+        }
+
+        if (didBlueff && bet == 0){
+            bet = highestbet-p.bet;
         }
 
         return bet;
