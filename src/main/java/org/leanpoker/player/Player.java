@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 public class Player {
 
@@ -80,6 +81,13 @@ public class Player {
         else if (km_probability >= 50){
 
             bet = highestbet;
+        }
+
+        double random = Math.random();
+
+        if (random <=  0.03){
+
+            bet = p.stack/2;
         }
 
         return bet;
