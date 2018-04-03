@@ -16,12 +16,12 @@ public class Player {
         Gson gson = new Gson();
         GameState gs = gson.fromJson(request, GameState.class);
 
-
-        int bet = 0;
-        int highestbet = 0;
+        int highestbet = gs.current_buy_in;
         int mySelfID = gs.in_action;
         PlayerObj p = gs.players[mySelfID];
         int myStack = p.stack;
+        int mybet = p.bet;
+        int bigBlind = gs.small_blind*2;
 
         CardObj[] myCards = p.hole_cards;
 
@@ -38,12 +38,6 @@ public class Player {
             allPlayers.add(thisg);
         }
 
-        for (PlayerObj pl : allPlayers){
-            if (pl.bet > highestbet){
-                highestbet = pl.bet;
-            }
-        }
-
 
 
         System.err.println(p.name);
@@ -57,26 +51,61 @@ public class Player {
 
         if (communityCards.length == 0){
 
-            // Karten rank vergleichen
+
+            int bet = 0;
 
             if (one == 13 || two == 13){
-                return p.stack;
+
+                bet = 4 * bigBlind;
             }
 
-            if(Math.abs(one-two) > 5){
+            if (one == two){
+
+                bet = 4 * bigBlind;
+            }
+
+            if((one == 12|| two == 12) && oneColour.equals(twoColour)){
+                bet = 4 * bigBlind;
+            }
+
+            if ((one == 12|| two == 12) && (one >= 4) && (two >= 4)){
+                bet = 4 * bigBlind;
+
+            }
+
+            if ((one == 11 || two == 11) && (one >= 5) && (two >= 5) && oneColour.equals(twoColour)){
+                bet = 4 * bigBlind;
+            }
+
+            if ((one == 11 || two == 11) && (one >= 7) && (two >= 7)){
+                bet = 4 * bigBlind;
+            }
+
+            if ((one == 10 || two == 10) && (one >= 7) && (two >= 7) && oneColour.equals(twoColour)){
+                bet = 4 * bigBlind;
+            }
+
+            if ((one == 10 || two == 10) && (one >= 9) && (two >= 9)){
+                bet = 4 * bigBlind;
+            }
+
+            return bet;
+
+
+            // Karten rank vergleichen
+            //if(Math.abs(one-two) > 5){
 
                 // Abstand der karten zu gross -> schauen ob farbe gleich ist
 
-                if (oneColour != twoColour){
+              //  if (oneColour != twoColour){
 
                     // alles scheisse
 
-                    return 0;
 
-                }
+              //  }
 
 
-            }
+          //  }
 
 
 
@@ -91,7 +120,7 @@ public class Player {
         }
 
 
-        return 21;
+        return 0;
     }
 
     public static void showdown(JsonElement game) {
