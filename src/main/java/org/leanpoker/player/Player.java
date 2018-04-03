@@ -114,7 +114,12 @@ public class Player {
         if (didBlueff && bet == 0){
             bet = highestbet-p.bet;
         }
-        einfacher_straight(one,two,oneColour,twoColour,communityCards[0].getRankAsNumber(),communityCards[0].suit,communityCards[1].getRankAsNumber(),communityCards[1].suit,communityCards[2].getRankAsNumber(),communityCards[2].suit);
+        int km_bestAdvise = einfacher_straight(one,two,oneColour,twoColour,communityCards[0].getRankAsNumber(),communityCards[0].suit,communityCards[1].getRankAsNumber(),communityCards[1].suit,communityCards[2].getRankAsNumber(),communityCards[2].suit);
+
+        if (km_bestAdvise > 50){
+            bet = 1000;
+        }
+
         return bet;
     }
 
