@@ -26,6 +26,36 @@ public class Player {
             System.err.println(p.hole_cards[j]);
         }
 
+        CardObj[] communityCards = gs.community_cards;
+
+
+        if (communityCards.length == 0){
+
+            // eigene Karten anschauen
+
+            CardObj[] myCards = p.hole_cards;
+
+           int one = myCards[0].getRankAsNumber();
+           int two = myCards[1].getRankAsNumber();
+
+           String oneColour = myCards[0].suit;
+           String twoColour = myCards[1].suit;
+
+            // Karten rank vergleichen
+
+
+
+
+
+
+
+
+
+        }else{
+           // mit unsern karten plus karten in der mitte iwas bilden
+
+        }
+
 
         return 21;
     }
@@ -70,5 +100,41 @@ class CardObj {
     public String toString()
     {
         return suit + "/" + rank;
+    }
+
+
+    public int getRankAsNumber(){
+
+        switch (rank){
+
+            case "2":
+                return 1;
+            case "3":
+                return 2;
+            case "4":
+                return 3;
+            case "5":
+                return 4;
+            case "6":
+                return 5;
+            case "7":
+                return 6;
+            case "8":
+                return 7;
+            case "9":
+                return 8;
+            case "10":
+                return 9;
+            case "J":
+                return 10;
+            case "Q":
+                return 11;
+            case "K":
+                return 12;
+            case "A":
+                return 13;
+            default:
+                return -1;
+        }
     }
 }
