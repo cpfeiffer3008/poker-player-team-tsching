@@ -92,6 +92,7 @@ public class Player {
             didBlueff = false;
         }
         double random = Math.random();
+        if (highestbet-p.bet < 100){
         if(random <= 0.5){
 
             if (bet != 0){
@@ -103,7 +104,7 @@ public class Player {
             if (bet != 0){
                 bet = highestbet - p.bet;
             }
-        }
+        }}
 
         if (random <=  0.03){
             didBlueff = true;
