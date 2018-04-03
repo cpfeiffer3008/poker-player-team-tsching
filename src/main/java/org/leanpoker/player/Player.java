@@ -60,7 +60,7 @@ public class Player {
             if (bet != 0){
                bet = highestbet + bet - p.bet;
             }
-            else if (km_probability > 50){
+            else if (km_probability >= 50){
 
                 bet = highestbet;
             }
@@ -70,6 +70,10 @@ public class Player {
 
         }else{
            // mit unsern karten plus karten in der mitte iwas bilden
+
+
+
+
 
         }
 
@@ -128,6 +132,28 @@ public class Player {
 
 
     }
+
+    public static boolean checkForTwins(CardObj[] communityCards, CardObj[] playerCards){
+
+            for(int i = 0; i<playerCards.length; i++){
+
+
+
+                for (int j= 0; j<communityCards.length; j++){
+
+                    if(playerCards[i].rank == communityCards[j].rank){
+
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+
+    }
+
+    
+
     public static int KMcompareCardsPreFlop(
     int erstekartewert,
     int zweitekartewert,
@@ -149,23 +175,30 @@ public class Player {
 
             wert = wert - (13 - erstekartewert); // 13 ist kartenanzehl
         } else {
+
             temp = (erstekartewert > zweitekartewert) ? // Abstand der Karten
                     erstekartewert - zweitekartewert :
                     zweitekartewert - erstekartewert;
+            int hoehereKarte = (erstekartewert > zweitekartewert) ? // Abstand der Karten
+                    erstekartewert:
+                    zweitekartewert;
 
             switch (temp) {
                 case 1:
-                    wert = wert + 50;
+                    wert = wert + 50 - (13 - hoehereKarte);
                     break;
                 case 2:
-                    wert = wert + 25;
+                    wert = wert + 25 - (13 - hoehereKarte);
                     break;
                 case 3:
-                    wert = wert + 5;
+                    wert = wert + 13 - (13 - hoehereKarte);
                     break;
                 default:
                     wert = wert + 0;
             }
+
+
+
         }
 
 
