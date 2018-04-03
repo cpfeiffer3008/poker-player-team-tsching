@@ -76,6 +76,7 @@ public class Player {
 
             bet += checkForFullHouse(result);
             bet += checkForQuadrupple(result);
+            bet += checkForFlush(communityCards, p.hole_cards);
 
 
         }
@@ -98,7 +99,55 @@ public class Player {
         return bet;
     }
 
-    private static int checkForTwoTwins(int[] a) {
+    public static int checkForFlush(CardObj[] comm, CardObj[] player){
+
+        int spadesCounter = 0;
+        int heartsCounter = 0;
+        int diamondsCounter = 0;
+        int clubsCounter = 0;
+
+        for(int i =0; i<comm.length;i++){
+
+            switch (comm[i].suit) {
+
+                case "spades":
+                    spadesCounter++;
+                case "hearts":
+                    heartsCounter++;
+                case "diamonds":
+                    diamondsCounter++;
+                case "clubs":
+                    clubsCounter++;
+                    default:
+                        break;
+            }
+        }
+
+        for(int i =0; i<player.length;i++) {
+
+            switch (player[i].suit) {
+
+                case "spades":
+                    spadesCounter++;
+                case "hearts":
+                    heartsCounter++;
+                case "diamonds":
+                    diamondsCounter++;
+                case "clubs":
+                    clubsCounter++;
+                default:
+                    break;
+            }
+        }
+
+        if(spadesCounter >=5 || heartsCounter >= 5 || diamondsCounter >= 5 || clubsCounter >= 5){
+
+            return 50;
+        }
+        return 0;
+    }
+
+    public static int checkForTwoTwins(int[] a) {
 
         int bet = 0;
 
