@@ -56,7 +56,8 @@ public class Player {
             bet = checkForPreFlop(one, two, oneColour, twoColour, bigBlind);
 
 
-        }else{
+        }
+        else {
            // mit unsern karten plus karten in der mitte iwas bilden
 
             int[] result = checkForSiblings(communityCards,p.hole_cards);
@@ -381,7 +382,7 @@ public class Player {
         int counterA = 0;
         int counterB = 0;
 
-        for(int i = 0; i<playerCards.length; i++){
+        for (int i = 0; i<playerCards.length; i++){
 
 
 
@@ -389,9 +390,10 @@ public class Player {
 
                 if(playerCards[i].rank.equals(communityCards[j].rank)){
 
-                    if (i == 0){
+                    if (i == 0) {
                         counterA += 1;
-                    }else {
+                    }
+                    else {
                         counterB += 1;
                     }
 
@@ -401,7 +403,7 @@ public class Player {
         }
 
         if (playerCards[0].rank.equals(playerCards[1].rank)){
-            int [] a= {counterA+2, 0};
+            int [] a = {counterA+2, 0};
             return a;
         }
 
@@ -435,9 +437,9 @@ public class Player {
             }
 
             if(counterA == 0){
-                b[0] = counter++;
+                b[0] = ++counter;
             }else {
-                b[1] = counter++;
+                b[1] = ++counter;
             }
 
         }
