@@ -114,7 +114,7 @@ public class Player {
         if (didBlueff && bet == 0){
             bet = highestbet-p.bet;
         }
-
+        einfacher_straight(one,two,oneColour,twoColour,communityCards[0].getRankAsNumber(),communityCards[0].suit,communityCards[1].getRankAsNumber(),communityCards[1].suit,communityCards[2].getRankAsNumber(),communityCards[2].suit);
         return bet;
     }
 
@@ -505,6 +505,142 @@ public class Player {
         return wert;
     }//ende von compareCardsPreFlop
 
+
+    public static int wahrscheinlichkeitStraightTurnRiver(int stellen, int breite){
+        int fehlendeStellen1 = stellen;
+        int maximalBreiteDerBreitestenStelle = breite;
+
+
+        int t = 0;
+
+        if(fehlendeStellen1==0 && maximalBreiteDerBreitestenStelle==0){
+            return 100;
+        }
+
+        if (fehlendeStellen1==1 && maximalBreiteDerBreitestenStelle==1){
+            t = (2*4)+1;
+            return t;
+        }
+
+        if (fehlendeStellen1==2 && maximalBreiteDerBreitestenStelle==1){
+            //save
+            t = (2*8)+1;
+            return t;
+        }
+        if (fehlendeStellen1==1 && maximalBreiteDerBreitestenStelle==2){
+            //save
+            t = (2*12)+1;
+            return t;
+        }
+        if (fehlendeStellen1==2 && maximalBreiteDerBreitestenStelle==2){
+            //save
+            t = (2*8)+1;
+            return t;
+        }
+        return 0;
+    }
+
+
+
+
+
+
+    public static int einfacher_straight(
+            int erstekartewert,
+            int zweitekartewert,
+            String erstefarbe,
+            String zweitefarbe,
+            int ersteComKarteWert,
+            String ersteComKarteFarbe,
+            int zweiteComKarteWert,
+            String zweiteComKarteFarbe,
+            int dritteComKarteWert,
+            String dritteComKarteFarbe
+    ) {
+        // straight 23456, 9 10 J Q K egal welche farbe
+        int[] tempArray = {
+                erstekartewert, zweitekartewert, ersteComKarteWert,
+                zweiteComKarteWert, dritteComKarteWert
+        };
+
+        // Karten am Tisch
+        boolean[] bgitter= new boolean[13];
+
+        // Setzt die Werte f¸r die am Tisch vorhandenen Karten auf true
+        for (int i = 0; i < tempArray.length; i++) {
+            bgitter[tempArray[i]- 1] = true;
+        }
+
+		/*
+		for (int j = 0; j < bgitter.length; j++){
+			System.out.println(bgitter[j]);
+		}*/
+
+        //KM SAVE
+        int max = 13; // Zum Herunterz‰hlen
+        int anzahlDerTrues = 0;
+
+        // Maximaler Abstand
+        int abstand = 0;
+        int tempAbstand = 0;
+        // Zahl der Stellen mit Abstand
+        int stellen = 0;
+
+        for (int i = max; i > 0; i--) {
+            if(bgitter[i-1]==true){
+                anzahlDerTrues++;
+            }
+        }
+        //System.out.println(anzahlDerTrues);
+
+        if (anzahlDerTrues == 5) {
+            boolean gefunden = false;
+            int i= max;
+            while(true) {
+                if(bgitter.length == 0){
+
+                }
+                if (bgitter[i-1] == true) {
+                    i--;
+                    gefunden = true;
+                    break;
+                }
+            }
+            if(gefunden){
+                int c = 1;
+                int falsezaehler=0;
+                boolean warFalse = false;
+
+                while(anzahlDerTrues>c)
+                {
+                    if(bgitter[i-1]==true){
+                        //dann weiter
+                        if(warFalse){
+                            stellen++;
+                            warFalse = false;
+                            if(falsezaehler>abstand){
+                                abstand = falsezaehler;
+                                falsezaehler = 0;
+                            }
+                        }
+                        c++;
+                    }else{
+                        System.out.println("FALSE ERKANNT");
+                        warFalse = true;
+                        falsezaehler++;
+
+                    }
+                    i--;
+                }
+            }
+        }
+		/*System.out.println("abstand");
+		System.out.println(abstand);
+		System.out.println("stellen");
+		System.out.println(stellen);*/
+        return  wahrscheinlichkeitStraightTurnRiver(stellen,abstand);
+
+    } // Ende einfacher Straight
 }
 
 class GameState {
