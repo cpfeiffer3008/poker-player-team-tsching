@@ -83,15 +83,27 @@ public class Player {
 
         }
 
-        if (bet != 0){
-            bet = highestbet + bet - p.bet;
-        }
+
        /* else if (km_probability >= 50){
 
             bet = highestbet-p.bet;
         }*/
 
+
+
         double random = Math.random();
+        if(random <= 0.5){
+
+            if (bet != 0){
+                bet = highestbet + bet - p.bet;
+            }
+
+        }else {
+
+            if (bet != 0){
+                bet = highestbet - p.bet;
+            }
+        }
 
         if (random <=  0.03){
 
