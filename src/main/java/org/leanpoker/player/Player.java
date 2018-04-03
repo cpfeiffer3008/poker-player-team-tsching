@@ -47,69 +47,17 @@ public class Player {
         }
 
         CardObj[] communityCards = gs.community_cards;
+        int bet = 0;
 
 
         if (communityCards.length == 0){
 
 
-            int bet = 0;
+            bet = checkForPreFlop(one, two, oneColour, twoColour, bigBlind);
 
-            if (one == 13 || two == 13){
-
-                bet = 4 * bigBlind;
+            if (bet != 0){
+               bet = highestbet + bet - p.bet;
             }
-
-            if (one == two){
-
-                bet = 4 * bigBlind;
-            }
-
-            if((one == 12|| two == 12) && oneColour.equals(twoColour)){
-                bet = 4 * bigBlind;
-            }
-
-            if ((one == 12|| two == 12) && (one >= 4) && (two >= 4)){
-                bet = 4 * bigBlind;
-
-            }
-
-            if ((one == 11 || two == 11) && (one >= 5) && (two >= 5) && oneColour.equals(twoColour)){
-                bet = 4 * bigBlind;
-            }
-
-            if ((one == 11 || two == 11) && (one >= 7) && (two >= 7)){
-                bet = 4 * bigBlind;
-            }
-
-            if ((one == 10 || two == 10) && (one >= 7) && (two >= 7) && oneColour.equals(twoColour)){
-                bet = 4 * bigBlind;
-            }
-
-            if ((one == 10 || two == 10) && (one >= 9) && (two >= 9)){
-                bet = 4 * bigBlind;
-            }
-
-            return bet;
-
-
-            // Karten rank vergleichen
-            //if(Math.abs(one-two) > 5){
-
-                // Abstand der karten zu gross -> schauen ob farbe gleich ist
-
-              //  if (oneColour != twoColour){
-
-                    // alles scheisse
-
-
-              //  }
-
-
-          //  }
-
-
-
-
 
 
 
@@ -120,10 +68,54 @@ public class Player {
         }
 
 
-        return 0;
+        return bet;
     }
 
     public static void showdown(JsonElement game) {
+    }
+
+    public static int checkForPreFlop(int one, int two, String oneColour, String twoColour, int bigBlind){
+
+        int bet = 0;
+
+        if (one == 13 || two == 13){
+
+            bet = 4 * bigBlind;
+        }
+
+        if (one == two){
+
+            bet = 4 * bigBlind;
+        }
+
+        if((one == 12|| two == 12) && oneColour.equals(twoColour)){
+            bet = 4 * bigBlind;
+        }
+
+        if ((one == 12|| two == 12) && (one >= 4) && (two >= 4)){
+            bet = 4 * bigBlind;
+
+        }
+
+        if ((one == 11 || two == 11) && (one >= 5) && (two >= 5) && oneColour.equals(twoColour)){
+            bet = 4 * bigBlind;
+        }
+
+        if ((one == 11 || two == 11) && (one >= 7) && (two >= 7)){
+            bet = 4 * bigBlind;
+        }
+
+        if ((one == 10 || two == 10) && (one >= 7) && (two >= 7) && oneColour.equals(twoColour)){
+            bet = 4 * bigBlind;
+        }
+
+        if ((one == 10 || two == 10) && (one >= 9) && (two >= 9)){
+            bet = 4 * bigBlind;
+        }
+
+        return bet;
+
+
     }
 
 }
