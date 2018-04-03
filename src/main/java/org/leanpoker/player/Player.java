@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Random;
 
@@ -78,6 +79,7 @@ public class Player {
             bet += checkForQuadrupple(result);
             bet += checkForFlush(communityCards, p.hole_cards);
 
+            bet += checkForStraight(communityCards,p.hole_cards);
 
         }
 
@@ -97,6 +99,75 @@ public class Player {
         }
 
         return bet;
+    }
+
+    public static int checkForStraight(CardObj[] comm, CardObj[] player){
+
+        ArrayList<Integer> list = new ArrayList<>();
+
+        for (int i = 0; i<comm.length;i++){
+
+            list.add(comm[i].getRankAsNumber());
+        }
+        for (int i = 0; i<player.length;i++){
+
+            list.add(comm[i].getRankAsNumber());
+        }
+
+        Collections.sort(list);
+
+
+        ArrayList<Integer> result = new ArrayList<>();
+        int lastValue = list.get(0);
+        int counter = 1;
+        for(int i=1; i<list.size();i++) {
+
+            if (list.get(i) == lastValue + 1) {
+                counter++;
+                lastValue = list.get(i);
+                result.add(lastValue);
+            } else if (lastValue != list.get(i)){
+                counter = 1;
+                lastValue = list.get(i);
+                result.clear();
+            }
+            if (counter == 5) {
+                result.add(list.get(i));
+                break;
+            }
+        }
+
+        for (int i = 0; i<result.size();i++){
+
+            if(result.get(i) == player[0].getRankAsNumber()){
+
+                for (int j = 0; j<comm.length;j++){
+
+                    if (comm[j].getRankAsNumber() == player[0].getRankAsNumber()){
+                        return 0;
+                    }else {
+                        return 50;
+                    }
+
+                }
+
+            }
+            if(result.get(i) == player[1].getRankAsNumber()){
+
+                for (int j = 0; j<comm.length;j++){
+
+                    if (comm[j].getRankAsNumber() == player[1].getRankAsNumber()){
+                        return 0;
+                    }else {
+                        return 50;
+                    }
+                }
+
+            }
+
+        }
+        return 0;
+
     }
 
     public static int checkForFlush(CardObj[] comm, CardObj[] player){
