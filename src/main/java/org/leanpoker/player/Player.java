@@ -49,39 +49,74 @@ public class Player {
         CardObj[] communityCards = gs.community_cards;
         int bet = 0;
 
+        int km_probability = KMcompareCardsPreFlop(one,two,oneColour,twoColour);
 
         if (communityCards.length == 0){
 
 
             bet = checkForPreFlop(one, two, oneColour, twoColour, bigBlind);
-            int km_probability = KMcompareCardsPreFlop(one,two,oneColour,twoColour);
-
-
-            if (bet != 0){
-               bet = highestbet + bet - p.bet;
-            }
-            else if (km_probability >= 50){
-
-                bet = highestbet;
-            }
-
-
 
 
         }else{
            // mit unsern karten plus karten in der mitte iwas bilden
 
+            int[] result = checkForSiblings(communityCards,p.hole_cards);
 
 
+            // checken fuer zwilling
 
+            bet += checkForTwins(result);
+            bet += chechForTwoTwins(result);
 
+         
         }
 
+        if (bet != 0){
+            bet = highestbet + bet - p.bet;
+        }
+        else if (km_probability >= 50){
+
+            bet = highestbet;
+        }
+
+        return bet;
+    }
+
+    private static int chechForTwoTwins(int[] a) {
+
+        int bet = 0;
+
+        if (a[0] == 2 && a[1] == 2){
+
+            bet = 1;
+
+        }
 
         return bet;
     }
 
     public static void showdown(JsonElement game) {
+    }
+
+    public static  int checkForTwins(int[] a){
+
+        int bet = 0;
+
+       if (a[0] == 0 && a[1] == 2){
+
+           bet = 1;
+
+       }
+        if (a[0] == 2 && a[1] == 0){
+
+            bet = 1;
+
+        }
+
+        return bet;
+
+
+
     }
 
     public static int checkForPreFlop(int one, int two, String oneColour, String twoColour, int bigBlind){
@@ -133,26 +168,52 @@ public class Player {
 
     }
 
-    public static boolean checkForTwins(CardObj[] communityCards, CardObj[] playerCards){
-
-            for(int i = 0; i<playerCards.length; i++){
 
 
+    public static int[] checkForSiblings(CardObj[] communityCards, CardObj[] playerCards){
 
-                for (int j= 0; j<communityCards.length; j++){
+        int counterA = 0;
+        int counterB = 0;
 
-                    if(playerCards[i].rank == communityCards[j].rank){
+        for(int i = 0; i<playerCards.length; i++){
 
-                        return true;
+
+
+            for (int j= 0; j<communityCards.length; j++){
+
+                if(playerCards[i].rank.equals(communityCards[j].rank)){
+
+                    if (i == 0){
+                        counterA += 1;
+                    }else {
+                        counterB += 1;
                     }
-                }
-            }
 
-            return false;
+            }
+        }
+
+        }
+
+        if (playerCards[0].rank.equals(playerCards[1].rank)){
+            int [] a= {counterA+2, 0};
+            return a;
+        }
+
+        if (counterA != 0){
+            counterA++;
+        }
+
+        if (counterB != 0){
+            counterB++;
+        }
+
+        final int [] b = {counterA,counterB};
+
+        return b;
 
     }
 
-    
+
 
     public static int KMcompareCardsPreFlop(
     int erstekartewert,
