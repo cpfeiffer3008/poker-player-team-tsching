@@ -43,6 +43,20 @@ public class Player {
 
             // Karten rank vergleichen
 
+            if(Math.abs(one-two) > 5){
+
+                // Abstand der karten zu gross -> schauen ob farbe gleich ist
+
+                if (oneColour != twoColour){
+
+                    // alles scheisse
+
+                    return 0;
+
+                }
+
+
+            }
 
 
 
