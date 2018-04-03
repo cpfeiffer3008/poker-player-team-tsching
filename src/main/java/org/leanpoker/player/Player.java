@@ -88,7 +88,7 @@ public class Player {
         }
         else if (km_probability >= 50){
 
-            bet = highestbet;
+            bet = highestbet-p.bet;
         }
 
         double random = Math.random();
